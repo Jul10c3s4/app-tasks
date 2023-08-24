@@ -1,0 +1,28 @@
+import { View, Text, Image } from "react-native"
+import { HomeStyles } from "./home.styles"
+import { ImageTop } from "../../components/ImageTop"
+import { FrameTasks } from "../../components/FrameTasks"
+
+export const Home = ()=>{
+    return(
+        <View style={HomeStyles.home}>
+            <Image style={{position: 'absolute',
+                top: 0,
+                left: 0,
+                zIndex: 10
+            }} source={require("../../../assets/shapeWhite.png")}/>
+            <View style={HomeStyles.upPart}>
+            <Image style={{
+            }} source={require("../../../assets/profile.png")}/>
+            <Text style={HomeStyles.titleWhite}>Welcome Mary</Text>
+            </View>
+            <View style={HomeStyles.downPart}>
+            <Image style={HomeStyles.imageWatch} source={require("../../../assets/watch.png")}/>
+            <View style={HomeStyles.blockDown}>
+                <Text style={HomeStyles.title}>Tasks List</Text>
+                <FrameTasks/>
+            </View>
+            </View>
+        </View>
+    )
+}
