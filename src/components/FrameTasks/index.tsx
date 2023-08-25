@@ -1,20 +1,33 @@
 import { View, Text,Image, TextInput, Alert, TouchableOpacity, ScrollView } from "react-native"
 import { FrameTasksStyles } from "./tasks.style"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Task } from "../Task/task"
-
+import { collection, addDoc, getDocs } from "firebase/firestore"
+import { database } from "../../config/firebase"
 export const FrameTasks = ()=>{
+
     const [value, setValue] = useState<string>('')
     const [tasks, setTaks] = useState<string[]>([])
-    
 
-    function handleTask(){
-        console.log(value);
-        
-        tasks.push(value)
-        setTaks((prevState)=> [...prevState, value])
-        console.log(tasks);
-        
+    useEffect(()=>{
+        async function getData(){
+            const querySnapshot = await getDocs(collection(database, "tasks"));
+            console.log(querySnapshot);
+            
+            setTaks(querySnapshot as any)
+        }
+        getData()
+    }, [])
+    async function  handleTask(){
+        try{
+            const docRef = await addDoc(collection(database, 'tasks'),{
+                task: value
+            })
+            setTaks((prevState)=> [...prevState, value]);
+            setValue('')
+        }catch(erro){
+            Alert.alert(erro as string)
+        }
     }
     return(
         <View style={FrameTasksStyles.container}>

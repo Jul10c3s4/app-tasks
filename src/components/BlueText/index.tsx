@@ -2,10 +2,11 @@ import {Text} from 'react-native'
 import { TextBlueStyles } from './blueText.styles'
 
 interface ITextBlue{
-    title: string
+    title: string,
+    onClick?:any
 }
-export const TextBlue = ({title}: ITextBlue)=>{
+export const TextBlue = ({title, onClick}: ITextBlue)=>{
     return(
-        <Text style={TextBlueStyles.title}>{title}</Text>
+        <Text style={TextBlueStyles.title} onPress={onClick}>{title}</Text>
     )
 }

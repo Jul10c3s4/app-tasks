@@ -10,7 +10,7 @@ interface IButtonClick{
 export const ButtonClick = ({background,body, title, onClick}: IButtonClick)=>{
     return(
         <View style={{width: "100%", alignItems: "center", position: 'absolute', bottom: 50}}>
-           <TouchableOpacity  style={{borderRadius: 6,  flexDirection: 'row', justifyContent: 'center', backgroundColor: background, width: "90%", paddingVertical: 10}}>
+           <TouchableOpacity onPress={onClick} style={{borderRadius: 6,  flexDirection: 'row', justifyContent: 'center', backgroundColor: background, width: "90%", paddingVertical: 10}}>
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>{title}</Text>
         </TouchableOpacity> 
         {body}
