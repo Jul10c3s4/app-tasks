@@ -6,71 +6,72 @@ import { doc, updateDoc } from "firebase/firestore"
 import { database } from "../../config/firebase"
 import Modal from 'react-native-modal';
 import { TextField } from "../TextField"
+import { ModalAlert } from "../modal"
 interface ITask{
     id: string,
     title: string,
     check: boolean, 
+    newtask: string,
+    handleOnChange: any,
+    onClose:any,
+    onOpen:any,
+    click: any,
+    deleteClick:any
 }
-export const Task = ({title, check, id}:ITask)=>{
+
+export const Task = ({title, check, id, newtask, handleOnChange, onClose, onOpen, click, deleteClick}:ITask)=>{
     const [isChecked, setIsChecked] = useState(check)
     const [isVisible, setisVisible] = useState(false)
-    const [newtask, setnewTask] = useState('')
+    const [isVisibleDelete, setisVisibleDelete] = useState(false)
+    const titulo = title
+    
     function handleCheckBox(){
         setIsChecked(!isChecked)
+        
+    }
+    
+    function HandleClick(){
+        click(id, setisVisible)
     }
 
-     const handleUpdateClick = async ()=>{
-        const updateTask = doc(database, 'task', id)
-        console.log(id);
-        
-        console.log(updateTask.path);
-        
-        await updateDoc(updateTask, {
-            title: newtask
-        })
-        setnewTask('')
-        setisVisible(false)
+    function HandleDeleteClick(){
+        deleteClick(id, setisVisibleDelete, title)
+    }
+    
+    function handleOnclose(){
+        onClose(setisVisible)
+    }
+    
+    function handleOnOpen(){
+        onOpen(setisVisible)
      }
 
-    function handleDeleteClick(){
-
+     function handleOncloseDelete(){
+        onClose(setisVisibleDelete)
     }
-
-    const onClose = ()=>{
-        setisVisible(false)
-    }
-
-    const onOpen = ()=>{
-        setisVisible(true)
-    }
-
-    function handleOnChange(e:any){
-        setnewTask(e)
-    }
+    
+    function handleOnOpenDelete(){
+        onOpen(setisVisibleDelete)
+     }
+    
+    
     return( 
         <View style={TaskStyles.rowText}>
-            <View style={{flexDirection:"row", alignItems: "center"}}>
-            <CheckBox size={30} containerStyle={TaskStyles.checkBox}
-            center={true} checkedColor="#62D2C3" onPress={handleCheckBox} checked={isChecked}/>
-            <Text style={TaskStyles.title}>{title}</Text>
+            <View style={TaskStyles.rowMain}>
+                <CheckBox size={30} containerStyle={TaskStyles.checkBox}
+                center={true} checkedColor="#62D2C3" onPress={handleCheckBox} checked={isChecked}/>
+                <Text style={TaskStyles.title}>{title}</Text>
             </View>
-            <View style={{flexDirection:"row", alignItems: "center", justifyContent: "space-between"}}>
-            <Text onPress={onOpen} style={{color:'white', paddingBottom:8,textAlign:"center", fontSize: 14, backgroundColor:"lightblue", fontWeight:"500", borderRadius: 5, paddingHorizontal: 8, paddingVertical:3}}>
-                <Image style={{width: 20, height:20}} source={require('../../../assets/update.png')}/>
-            </Text>
-            <Text onPress={onOpen} style={{ paddingBottom:8, color:'white', fontSize: 14, backgroundColor:"red", fontWeight:"500", borderRadius: 5, paddingHorizontal: 8,  marginLeft: 20}}>
-                <Image style={{width: 20, height:20}} source={require('../../../assets/excluir.png')}/></Text>
+            <View style={TaskStyles.rowButtons}>
+                <Text onPress={handleOnOpen} style={TaskStyles.buttonUpdate}>
+                    <Image style={{width: 20, height:20}} source={require('../../../assets/update.png')}/>
+                </Text>
+                <Text onPress={handleOnOpenDelete} style={TaskStyles.buttonDelete}>
+                    <Image style={{width: 20, height:20}} source={require('../../../assets/excluir.png')}/>
+                </Text>
             </View>
-
-            <Modal isVisible={isVisible}>
-                <View style={TaskStyles.modalContent}>
-                    <TextField label={"informe a nova task"} onChange={handleOnChange} value={newtask} placeholder={title} type={'default'} secure={false}/>
-                    <View style={TaskStyles.buttonsContainer}>
-                    <Text onPress={onClose} style={{color: 'red'}}>Cancelar</Text>
-                    <Text onPress={handleUpdateClick} style={{color: 'blue'}}>OK</Text>
-                    </View>
-                </View>
-    </Modal>
+            <ModalAlert label="digite a nova tarefa para atualizar:" placeholder={titulo} type={'default'} value={newtask} onChange={handleOnChange} isVisible={isVisible} onClose={handleOnclose} click={HandleClick}/>
+            <ModalAlert label="informe o nome da tarefa para excluí-la:" placeholder={titulo} type={'default'} value={newtask} onChange={handleOnChange} isVisible={isVisibleDelete} onClose={handleOncloseDelete} click={HandleDeleteClick} />
         </View>
     )
 }

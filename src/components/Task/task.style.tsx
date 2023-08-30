@@ -21,14 +21,38 @@ export const TaskStyles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '500'
     },
-    modalContent: {
-        backgroundColor: '#EEEEEE',       
-        padding: 20, 
-        borderRadius: 10,
+
+    rowMain:{
+        flexDirection:"row", 
+        alignItems: "center"
     },
 
-    buttonsContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-      },
+    rowButtons:{
+        flexDirection:"row", 
+        alignItems: "center", 
+        justifyContent: "space-between"
+    },
+    
+    buttonUpdate:{
+        color:'white', 
+        paddingBottom:8,
+        textAlign:"center", 
+        fontSize: 14, 
+        backgroundColor:"lightblue", 
+        fontWeight:"500", 
+        borderRadius: 5, 
+        paddingHorizontal: 8, 
+        paddingVertical:3
+    },
+
+    buttonDelete:{ 
+        paddingBottom:8, 
+        color:'white', 
+        fontSize: 14, 
+        backgroundColor:"red", 
+        fontWeight:"500", 
+        borderRadius: 5, 
+        paddingHorizontal: 8,  
+        marginLeft: 20
+    }
 })

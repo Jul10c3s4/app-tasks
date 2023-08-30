@@ -21,7 +21,6 @@ export const TextField = ({label, secure, placeholder, type, value, onChange}: I
             secureTextEntry={secure} 
             keyboardType={type}
             style={TextFieldStyles.textField}/>
-            
         </View>
     )
 }
