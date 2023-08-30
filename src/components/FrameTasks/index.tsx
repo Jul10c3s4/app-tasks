@@ -33,7 +33,6 @@ export const FrameTasks = ()=>{
                 const docRef = await addDoc(collection(database, "task"),{
                     title: value
                 })            
-                Alert.alert(docRef.id as any)
                 setTaks((prevState:any)=> [...prevState,{ id:docRef.id,
                     title:value}]);
                 setValue('')
