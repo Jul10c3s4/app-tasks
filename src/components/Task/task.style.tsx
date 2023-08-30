@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export const TaskStyles = StyleSheet.create({
     rowText:{
         flexDirection:'row',
-        justifyContent:'flex-start',
+        justifyContent:'space-between',
         alignItems:'center',
         marginBottom: 10,
         paddingLeft:0 
@@ -16,8 +16,19 @@ export const TaskStyles = StyleSheet.create({
     },
 
     title:{
+
         marginLeft: 5,
         fontSize: 16,
         fontWeight: '500'
     },
+    modalContent: {
+        backgroundColor: '#EEEEEE',       
+        padding: 20, 
+        borderRadius: 10,
+    },
+
+    buttonsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+      },
 })

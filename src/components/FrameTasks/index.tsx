@@ -2,8 +2,8 @@ import { View, Text,Image, TextInput, Alert, TouchableOpacity, ScrollView } from
 import { FrameTasksStyles } from "./tasks.style"
 import { useEffect, useState } from "react"
 import { Task } from "../Task/task"
-import { collection, addDoc, getDocs } from "firebase/firestore"
-import { database } from "../../config/firebase"
+import { getDocs, updateDoc } from "firebase/firestore"
+import { database, collection, addDoc } from "../../config/firebase"
 export const FrameTasks = ()=>{
 
     const [value, setValue] = useState<string>('')
@@ -11,24 +11,34 @@ export const FrameTasks = ()=>{
 
     useEffect(()=>{
         async function getData(){
-            const querySnapshot = await getDocs(collection(database, "tasks"));
-            console.log(querySnapshot);
+            console.log('oi');
             
-            setTaks(querySnapshot as any)
+            const querySnapshot = await getDocs(collection(database, "task"));
+            querySnapshot.forEach((task:any)=>{
+                setTaks(prevState=> [...prevState,{ id:task.id,
+                    ...task.data()}])
+            })
+            console.log("tasks",tasks)
+            
         }
         getData()
     }, [])
     async function  handleTask(){
         try{
-            const docRef = await addDoc(collection(database, 'tasks'),{
-                task: value
-            })
-            setTaks((prevState)=> [...prevState, value]);
+            const docRef = await addDoc(collection(database, "task"),{
+                title: value
+            })            
+            Alert.alert(docRef.id as any)
+            setTaks((prevState:any)=> [...prevState,{ id:docRef.id,
+                title:value}]);
             setValue('')
         }catch(erro){
+            console.log(erro);
+            
             Alert.alert(erro as string)
         }
     }
+
     return(
         <View style={FrameTasksStyles.container}>
             <View style={FrameTasksStyles.rowText}>
@@ -38,11 +48,9 @@ export const FrameTasks = ()=>{
                 </TouchableOpacity>
             </View>
             <ScrollView style={{flex:1}}>
-                {tasks.map((task)=>{
-                    console.log(typeof(task));
-                    
+                {tasks.map((task:any)=>{
                     return(
-                        <Task title={task} checked={false}/>
+                        <Task check={false} id={task.id} key={task.id} title={task.title}/>
                     )
                 })}
             </ScrollView>

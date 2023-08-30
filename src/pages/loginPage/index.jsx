@@ -1,4 +1,4 @@
-import { View, Text, Button,Image, Alert } from "react-native"
+import { View, Text, Button,Image, Alert, ScrollView } from "react-native"
 import { LoginPageStyles } from "./loginPage.styles"
 import { useNavigation } from "@react-navigation/native"
 import { TextField } from "../../components/TextField"
@@ -11,14 +11,12 @@ import { useState } from "react"
 export const LoginPage = ()=>{
     const navigation = useNavigation()
     const auth = getAuth();
-    const [email, setEmail] = useState('')
-    const [password, setPassword]= useState('')
+    const [email, setEmail] = useState('ana@gmail.com')
+    const [password, setPassword]= useState('ana123')
 
     const navigateToHome = (name)=>{
-        const data = {
-            nome: name
-        } 
-        navigation.navigate('Home', data)
+        
+        navigation.navigate('Home', {name: name})
     }
     function handleEmail(e){
         setEmail(e)
@@ -50,7 +48,8 @@ export const LoginPage = ()=>{
         
     }
     return(
-        <View style={LoginPageStyles.loginPage}>
+        <ScrollView a style={{ backgroundColor:'red'}} contentContainerStyle={{ height:'100%',backgroundColor:'red', justifyContent:'center'}}>
+            <View style={LoginPageStyles.loginPage}>
             <ImageTop/>
             <Text style={LoginPageStyles.title}>Welcome Back!</Text>
             <Image style={LoginPageStyles.imageCenter} source={require("../../../assets/account.png")}/>
@@ -81,5 +80,6 @@ export const LoginPage = ()=>{
             </View>} 
             title="Register"></ButtonClick>
         </View>
+        </ScrollView>
     )
 }

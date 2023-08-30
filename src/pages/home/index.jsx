@@ -3,12 +3,11 @@ import { HomeStyles } from "./home.styles"
 import { ImageTop } from "../../components/ImageTop"
 import { FrameTasks } from "../../components/FrameTasks"
 import {useRoute} from '@react-navigation/native'
-import { collection, addDoc } from "firebase/firestore"
 
 export const Home = ()=>{
     const route = useRoute()
 
-    const {name} = route.params;
+    const {name} = route.params ?? "Julio";
     return(
         <View style={HomeStyles.home}>
             <Image style={{position: 'absolute',
